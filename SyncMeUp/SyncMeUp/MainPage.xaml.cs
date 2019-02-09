@@ -18,6 +18,7 @@ namespace SyncMeUp
         public ImageSource QrCode { get; set; }
 
         private string _labelText;
+
         public string LabelText
         {
             get => _labelText;
@@ -68,26 +69,49 @@ namespace SyncMeUp
 
         public async void StartListening()
         {
+            var hostName = Dns.GetHostName();
+            var address = Dns.GetHostAddresses(hostName);
+            var hostEntry = Dns.GetHostEntry(hostName);
+            var otherAddresses = hostEntry.AddressList;
+            var filtered = otherAddresses.Where(addr => addr.AddressFamily == AddressFamily.InterNetwork).ToArray();
+            var names = filtered.Select(addr => addr.ToString()).ToArray();
             var listener = new TcpListener(IPAddress.Parse("192.168.0.129"), 1585);
+
+            var tcpGeneralListener = new TcpListener(IPAddress.Any, 30465);
+            tcpGeneralListener.Start();
+
+            Task.Run(() =>
+            {
+                var socket = tcpGeneralListener.AcceptSocket();
+                int i;
+                byte[] bytes = new byte[256];
+
+                while (( i = socket.Receive(bytes) ) != 0)
+                {
+                    string data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                    if (data == "Hello")
+                    {
+                        socket.Send(Encoding.ASCII.GetBytes("Hello yourself"));
+                    }
+                }
+            });
             //var listener = TcpListener.Create(1585);
 
             listener.Start();
 
             while (true)
             {
+                int beforeAccept = 1;
                 //var client = listener.AcceptTcpClient();
                 var socket = listener.AcceptSocket();
 
-                //var client = await clientTask;
-                
                 //var stream = client.GetStream();
 
-                while (socket.Connected)
-                {
-                    int i;
-                    byte[] bytes = new byte[256];
-                    i = socket.Receive(bytes);
+                int i;
+                byte[] bytes = new byte[256];
 
+                while (( i = socket.Receive(bytes) ) != 0)
+                {
                     string text = "";
 
                     //while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
@@ -98,6 +122,8 @@ namespace SyncMeUp
 
                     MakeQrCode(text);
                 }
+
+                socket.Dispose();
             }
         }
     }

@@ -6,10 +6,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Newtonsoft.Json;
 using QRCoder;
+using SyncMeUp.Commands;
+using SyncMeUp.Services;
 using Xamarin.Forms;
+//using ZXing;
+//using ZXing.Mobile;
 
 namespace SyncMeUp
 {
@@ -49,9 +55,40 @@ namespace SyncMeUp
             //OnPropertyChanged(nameof(LabelText));
 
             MakeQrCode("abcd1234");
-            Task.Run(() => StartListening());
+            //Task.Run(() => StartListening());
 
             Di.RegisterInstance(this);
+
+            ScanQrCode = new CommandForwarding(sender => ClickButton());
+        }
+
+        private async void ClickButton()
+        {
+            var scanner = Di.GetInstance<IQrCodeScanService>();
+
+            var result = await scanner.ScanQrCode();
+
+            if (result != null)
+            {
+                MakeQrCode(result);
+            }
+
+            int p = 7;
+
+            //var result = await TryScanQrCode(camera, TimeSpan.FromMinutes(3));
+
+            //int p = 5;
+
+            //MakeQrCode(result);
+
+            //qrCodeReader.Decode()
+        }
+
+        public ICommand ScanQrCode { get; set; }
+
+        public void MakeQrCode(byte[] content)
+        {
+            MakeQrCode(Encoding.ASCII.GetString(content));
         }
 
         public void MakeQrCode(string content)
@@ -76,25 +113,6 @@ namespace SyncMeUp
             var filtered = otherAddresses.Where(addr => addr.AddressFamily == AddressFamily.InterNetwork).ToArray();
             var names = filtered.Select(addr => addr.ToString()).ToArray();
             var listener = new TcpListener(IPAddress.Parse("192.168.0.129"), 1585);
-
-            var tcpGeneralListener = new TcpListener(IPAddress.Any, 30465);
-            tcpGeneralListener.Start();
-
-            Task.Run(() =>
-            {
-                var socket = tcpGeneralListener.AcceptSocket();
-                int i;
-                byte[] bytes = new byte[256];
-
-                while (( i = socket.Receive(bytes) ) != 0)
-                {
-                    string data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                    if (data == "Hello")
-                    {
-                        socket.Send(Encoding.ASCII.GetBytes("Hello yourself"));
-                    }
-                }
-            });
             //var listener = TcpListener.Create(1585);
 
             listener.Start();

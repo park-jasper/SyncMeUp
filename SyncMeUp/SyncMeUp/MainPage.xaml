@@ -10,7 +10,9 @@
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" />
         <Label Text="{Binding Path=LabelText}" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
+
         <Image Source="{Binding Path=QrCode}" />
+        <Button VerticalOptions="Center" Text="ScanQrCode" Command="{Binding Path=ScanQrCode}"></Button>
     </StackLayout>
 
 </ContentPage>

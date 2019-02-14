@@ -50,9 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Unity">
-      <Version>5.9.3</Version>
+      <Version>5.9.4</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Xamarin.Forms" Version="3.5.0.129452" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.1" />
     <PackageReference Include="Xamarin.Android.Support.v4" Version="28.0.0.1" />
@@ -104,10 +104,6 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Camera2.Net\Camera2.Net.csproj">
-      <Project>{2ad28ca1-c804-4d11-8717-187a6a9518cc}</Project>
-      <Name>Camera2.Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SyncMeUp\SyncMeUp.csproj">
       <Project>{0F6956F6-87FF-4B0A-A4CF-99F6FC24D74A}</Project>
       <Name>SyncMeUp</Name>

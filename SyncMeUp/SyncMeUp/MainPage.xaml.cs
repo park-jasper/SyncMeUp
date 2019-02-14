@@ -106,12 +106,6 @@ namespace SyncMeUp
 
         public async void StartListening()
         {
-            var hostName = Dns.GetHostName();
-            var address = Dns.GetHostAddresses(hostName);
-            var hostEntry = Dns.GetHostEntry(hostName);
-            var otherAddresses = hostEntry.AddressList;
-            var filtered = otherAddresses.Where(addr => addr.AddressFamily == AddressFamily.InterNetwork).ToArray();
-            var names = filtered.Select(addr => addr.ToString()).ToArray();
             var listener = new TcpListener(IPAddress.Parse("192.168.0.129"), 1585);
             //var listener = TcpListener.Create(1585);
 

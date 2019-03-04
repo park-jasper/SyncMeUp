@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
-using SyncMeUp.Services;
+using SyncMeUp.Domain.Services;
 using ZXing;
 using ZXing.Mobile;
 
@@ -16,7 +18,11 @@ namespace SyncMeUp.Droid.Services
 
             var result = await scanner.Scan(options);
 
-            return result?.RawBytes;
+            if (result == null)
+            {
+                return null;
+            }
+            return Convert.FromBase64String(result.Text);
         }
     }
 }

@@ -6,8 +6,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using SyncMeUp.Domain.Services;
 using SyncMeUp.Droid.Services;
-using SyncMeUp.Services;
 using ZXing.Mobile;
 
 namespace SyncMeUp.Droid
@@ -21,19 +21,23 @@ namespace SyncMeUp.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             
             Di.RegisterInstance<IQrCodeScanService>(new QrCodeScanService());
+            Di.RegisterInstance<IUniqueIdentifierService>(
+                new UniqueIdentifierService(() => ApplicationContext.ContentResolver));
             
             MobileBarcodeScanner.Initialize(Application);
 
             base.OnCreate(savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
-            //Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            //base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

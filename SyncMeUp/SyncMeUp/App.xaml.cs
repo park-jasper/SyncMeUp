@@ -1,4 +1,6 @@
 ﻿using System;
+using SyncMeUp.Domain.Contracts;
+using SyncMeUp.Domain.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,6 +12,8 @@ namespace SyncMeUp
         public App()
         {
             InitializeComponent();
+
+            Di.RegisterType<ISecureStorageProvider, SecureStorageProvider>(true);
 
             MainPage = new MainPage();
         }

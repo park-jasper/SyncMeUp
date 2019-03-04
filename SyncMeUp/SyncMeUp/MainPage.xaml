@@ -5,14 +5,13 @@
              x:Class="SyncMeUp.MainPage">
 
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-        <Label Text="{Binding Path=LabelText}" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
+        <Button VerticalOptions="Center" Text="MakeOtp" Command="{Binding Path=MakeOtp}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
+        <Button VerticalOptions="Center" Text="StopServer" Command="{Binding Path=StopServer}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
+        <Button VerticalOptions="Center" Text="ScanQrCode" Command="{Binding Path=ScanQrCode}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
+        <Button VerticalOptions="Center" Text="Test" Command="{Binding Path=Test}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
 
-        <Image Source="{Binding Path=QrCode}" />
-        <Button VerticalOptions="Center" Text="ScanQrCode" Command="{Binding Path=ScanQrCode}"></Button>
+        <Image Source="{Binding Path=QrCodeDataStream}" HeightRequest="700"/>
+        <Label Text="{Binding Path=Info}"/>
     </StackLayout>
 
 </ContentPage>

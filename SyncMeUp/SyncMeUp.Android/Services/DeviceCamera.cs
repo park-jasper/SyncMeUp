@@ -10,7 +10,7 @@ using Android.Media;
 using Android.OS;
 using Android.Views;
 using MoreLinq;
-using SyncMeUp.Services;
+using SyncMeUp.Domain.Services;
 
 namespace SyncMeUp.Droid.Services
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Core;
-using SyncMeUp.Services;
+using SyncMeUp.Domain.Services;
 using ZXing;
 using ZXing.Mobile;
 

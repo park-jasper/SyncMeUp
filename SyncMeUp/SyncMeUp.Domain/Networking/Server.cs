@@ -58,7 +58,7 @@ namespace SyncMeUp.Domain.Networking
         public ServerControl Listen(Action onClientConnected, Action onNetworkDisconnected)
         {
             var tokenSource = new CancellationTokenSource();
-            Task.Run(() => ListenInternal(onClientConnected, onNetworkDisconnected, tokenSource.Token));
+            Task.Run(() => ListenInternal(onClientConnected, onNetworkDisconnected, tokenSource.Token), tokenSource.Token);
             return new ServerControl(this, tokenSource);
         }
 
@@ -70,7 +70,9 @@ namespace SyncMeUp.Domain.Networking
             while (!token.IsCancellationRequested)
             {
                 var tcpClient = await _listener.AcceptTcpClientAsync();
-                Task.Run(() => HandleTcpClientAccepted(tcpClient, onClientConnected, onNetworkDisconnected, token));
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Task.Run(() => HandleTcpClientAccepted(tcpClient, onClientConnected, onNetworkDisconnected, token), token);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
         }
 

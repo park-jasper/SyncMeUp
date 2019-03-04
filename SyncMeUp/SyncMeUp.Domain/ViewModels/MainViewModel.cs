@@ -16,7 +16,7 @@ namespace SyncMeUp.Domain.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public MemoryStream QrCodeDataStream { get; set; }
+        public byte[] QrCodeImageData { get; set; }
 
         public string Info { get; set; }
 
@@ -71,14 +71,13 @@ namespace SyncMeUp.Domain.ViewModels
                 Array.Copy(result, gLength + ipLength, otp, 0, otp.Length);
                 var control = client.RegisterWithServer(new IPAddress(ipAddress), 1585, new Guid(serverGuid), otp);
                 var connectionResult = await control.ConnectionTask;
-                int p = 4;
             }
             GuiEnabled = true;
         }
 
         private Server.ServerControl _serverControl;
 
-        private async void MakeClientRegister()
+        private void MakeClientRegister()
         {
             var guid = new Guid("b0ef7dda-ad9a-4354-aec0-21447e84bf9d");
             var server = Server.CreateServer(1585, guid);
@@ -112,8 +111,7 @@ namespace SyncMeUp.Domain.ViewModels
             var gen = new QRCodeGenerator();
             var data = gen.CreateQrCode(content, QRCodeGenerator.ECCLevel.H);
             var code = new BitmapByteQRCode(data);
-            var rawData = code.GetGraphic(20);
-            QrCodeDataStream = new MemoryStream(rawData);
+            QrCodeImageData = code.GetGraphic(20);
         }
     }
 }

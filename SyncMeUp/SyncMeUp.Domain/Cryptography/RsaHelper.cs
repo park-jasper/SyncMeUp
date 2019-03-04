@@ -52,7 +52,7 @@ namespace SyncMeUp.Domain.Cryptography
                 var key = await Di.GetInstance<ISecureStorageProvider>().GetAsync(RsaDeviceKeyPairIdentifier);
                 return RsaKeyPair.Deserialize(key);
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 return null;
             }
@@ -64,7 +64,7 @@ namespace SyncMeUp.Domain.Cryptography
             {
                 await Di.GetInstance<ISecureStorageProvider>().SetAsync(RsaDeviceKeyPairIdentifier, RsaKeyPair.Serialize(keyPair));
             }
-            catch (Exception exc)
+            catch (Exception)
             {
 
             }

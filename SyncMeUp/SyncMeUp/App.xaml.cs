@@ -1,6 +1,7 @@
 ﻿using System;
 using SyncMeUp.Domain.Contracts;
 using SyncMeUp.Domain.Services;
+using SyncMeUp.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

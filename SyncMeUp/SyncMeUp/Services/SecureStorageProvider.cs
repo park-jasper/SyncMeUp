@@ -77,7 +77,7 @@ namespace SyncMeUp.Services
             {
                 result = await SecureStorage.GetAsync(key);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
             }
 
@@ -91,7 +91,7 @@ namespace SyncMeUp.Services
                 await SecureStorage.SetAsync(key, value);
                 return;
             }
-            catch (Exception exc)
+            catch (Exception)
             {
             }
 

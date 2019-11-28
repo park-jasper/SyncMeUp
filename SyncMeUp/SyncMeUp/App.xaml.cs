@@ -2,6 +2,7 @@
 using SyncMeUp.Domain.Contracts;
 using SyncMeUp.Domain.Services;
 using SyncMeUp.Services;
+using SyncMeUp.Services.Database;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +16,8 @@ namespace SyncMeUp
             InitializeComponent();
 
             Di.RegisterType<ISecureStorageProvider, SecureStorageProvider>(true);
+            Di.RegisterType<ISettingsProvider, SettingsProvider>(true);
+            Di.RegisterInstance<IBulkStorageProvider>(new BulkStorageProvider("containers.sqlite"));
 
             MainPage = new MainPage();
         }

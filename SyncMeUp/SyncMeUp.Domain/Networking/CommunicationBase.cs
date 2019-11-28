@@ -7,7 +7,7 @@ namespace SyncMeUp.Domain.Networking
     public abstract class CommunicationBase
     {
         public Guid Guid { get; }
-        protected RNGCryptoServiceProvider _randomSource = new RNGCryptoServiceProvider();
+        protected RNGCryptoServiceProvider RandomSource = new RNGCryptoServiceProvider();
 
         protected CommunicationBase(Guid guid)
         {

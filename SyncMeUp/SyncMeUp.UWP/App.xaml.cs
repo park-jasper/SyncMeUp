@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SyncMeUp.Domain.Services;
 using SyncMeUp.UWP.Services;
+using System.Diagnostics;
 
 namespace SyncMeUp.UWP
 {

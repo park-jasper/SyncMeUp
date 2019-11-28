@@ -25,7 +25,7 @@ namespace SyncMeUp.Domain.Networking
             return host.AddressList.FirstOrDefault(IsActualLocalIpAddress);
         }
 
-        public static Server CreateServer(int port, Guid serverGuid)
+        public static Server CreateServer(int port, Guid serverGuid, ISettingsProvider settingsProvider)
         {
             var localIpAddress = GetLocalIpAddress();
             if (localIpAddress != null)

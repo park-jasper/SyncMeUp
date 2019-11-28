@@ -34,8 +34,14 @@ namespace SyncMeUp.Domain.ViewModels
             StopServer = new CommandForwarding(sender => _serverControl?.Stop());
             Test = new CommandForwarding(async sender =>
             {
-                var storage = Di.GetInstance<ISecureStorageProvider>();
-                await storage.SetAsync("SomeKey", "Wololo");
+                //var storage = Di.GetInstance<ISecureStorageProvider>();
+                //await storage.SetAsync("SomeKey", "Wololo");
+                var provider = Di.GetInstance<IBulkStorageProvider>();
+                var bulk = provider.OpenBulkStorage();
+                var f = bulk.OpenFile("testTable");
+
+                await Task.Delay(5000);
+                provider.CloseBulkStorage(bulk);
             });
 
             GuiEnabled = true;
@@ -80,7 +86,7 @@ namespace SyncMeUp.Domain.ViewModels
         private void MakeClientRegister()
         {
             var guid = new Guid("b0ef7dda-ad9a-4354-aec0-21447e84bf9d");
-            var server = Server.CreateServer(1585, guid);
+            var server = Server.CreateServer(1585, guid, Di.GetInstance<ISettingsProvider>());
 
             var randomSource = new RNGCryptoServiceProvider();
 

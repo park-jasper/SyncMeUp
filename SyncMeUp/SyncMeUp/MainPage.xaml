@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SyncMeUp"
+             xmlns:views="clr-namespace:SyncMeUp.Views"
              x:Class="SyncMeUp.MainPage">
 
     <StackLayout>
@@ -10,8 +11,9 @@
         <Button VerticalOptions="Center" Text="ScanQrCode" Command="{Binding Path=ScanQrCode}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
         <Button VerticalOptions="Center" Text="Test" Command="{Binding Path=Test}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
 
-        <Image Source="{Binding Path=QrCodeImageData, Converter={StaticResource ImageDataSourceConverter}}" HeightRequest="700"/>
+        <!--<Image Source="{Binding Path=QrCodeImageData, Converter={StaticResource ImageDataSourceConverter}}" HeightRequest="700"/>-->
         <Label Text="{Binding Path=Info}"/>
+        <views:ContainerView BindingContext="{Binding Path=Container}" />
     </StackLayout>
 
 </ContentPage>

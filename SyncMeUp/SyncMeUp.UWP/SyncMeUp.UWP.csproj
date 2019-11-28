@@ -96,6 +96,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FilePicker.cs" />
     <Compile Include="Services\QrCodeScanService.cs" />
     <Compile Include="Services\UniqueIdentifierService.cs" />
   </ItemGroup>

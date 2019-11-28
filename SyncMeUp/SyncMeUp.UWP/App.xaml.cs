@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using SyncMeUp.Domain.Services;
 using SyncMeUp.UWP.Services;
 using System.Diagnostics;
+using SyncMeUp.Domain.Contracts;
 
 namespace SyncMeUp.UWP
 {
@@ -35,6 +36,7 @@ namespace SyncMeUp.UWP
             this.Suspending += OnSuspending;
 
             Di.RegisterType<IUniqueIdentifierService, UniqueIdentifierService>(true);
+            Di.RegisterType<IFilePicker, FilePicker>(true);
         }
 
         /// <summary>

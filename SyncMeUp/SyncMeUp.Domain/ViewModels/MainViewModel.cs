@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
@@ -9,6 +10,7 @@ using QRCoder;
 using SyncMeUp.Domain.Commands;
 using SyncMeUp.Domain.Contracts;
 using SyncMeUp.Domain.Cryptography;
+using SyncMeUp.Domain.Domain;
 using SyncMeUp.Domain.Networking;
 using SyncMeUp.Domain.Services;
 
@@ -26,6 +28,16 @@ namespace SyncMeUp.Domain.ViewModels
         public ICommand MakeOtp { get; set; }
         public ICommand StopServer { get; set; }
         public ICommand Test { get; set; }
+
+        public ContainerViewModel Container { get; set; } = new ContainerViewModel(new KnownClientsProvider(Di.GetInstance<ISecureStorageProvider>()), new SynchronizationContainer
+        {
+            Name = "Musik",
+            RelativePath = @"E:\Jasper\Music",
+            Guid = Guid.NewGuid(),
+            SyncOptions = SynchronizationOptions.Download | SynchronizationOptions.Upload,
+            Files = new List<string>(),
+            KnownPeers = new List<Guid>()
+        });
 
         public MainViewModel()
         {

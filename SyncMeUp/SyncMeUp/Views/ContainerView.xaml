@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SyncMeUp.Views.ContainerView">
+    <ContentView.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Entry Text="{Binding Path=Name}" />
+                <Label Text="{Binding Path=Guid}" />
+            </StackLayout>
+            <Label Text="{Binding Path=RelativePath}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding PickFolder}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <Picker ItemsSource="{Binding Path=AvailableSyncOptions}" SelectedIndex="{Binding Path=SyncOptionIndex}" ItemDisplayBinding="{Binding Path=Name}" />
+            
+        </StackLayout>
+  </ContentView.Content>
+</ContentView>

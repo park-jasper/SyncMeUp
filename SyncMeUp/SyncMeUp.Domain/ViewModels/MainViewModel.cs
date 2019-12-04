@@ -34,7 +34,11 @@ namespace SyncMeUp.Domain.ViewModels
             Name = "Musik",
             RelativePath = @"E:\Jasper\Music",
             Guid = Guid.NewGuid(),
-            SyncOptions = SynchronizationOptions.Download | SynchronizationOptions.Upload,
+            SyncModes = new SynchronizationModes
+            {
+                Download = true
+            },
+            OwnCommunicationRole = CommunicationRole.Server,
             Files = new List<string>(),
             KnownPeers = new List<Guid>()
         });

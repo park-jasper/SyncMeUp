@@ -16,8 +16,39 @@
                     <TapGestureRecognizer Command="{Binding PickFolder}" />
                 </Label.GestureRecognizers>
             </Label>
-            <Picker ItemsSource="{Binding Path=AvailableSyncOptions}" SelectedIndex="{Binding Path=SyncOptionIndex}" ItemDisplayBinding="{Binding Path=Name}" />
-            
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding Path=Upload}" />
+                <Label Text="Upload">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ToggleUpload}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding Path=Download}" />
+                <Label Text="Download">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ToggleDownload}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <Picker ItemsSource="{Binding Path=CommunicationRoles}" SelectedItem="{Binding Path=SelectedCommunicationRole, Mode=TwoWay}" ItemDisplayBinding="{Binding Path=Name}" />
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding Path=HostOnP2P}" />
+                <Label Text="Act as host in P2P szenario (not recommended for phones and tablets)">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ToggleHostOnP2P}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding Path=ShowHostOnP2PCheckbox}" Value="True">
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding Path=ShowHostOnP2PCheckbox}" Value="False">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+            </StackLayout>
         </StackLayout>
   </ContentView.Content>
 </ContentView>

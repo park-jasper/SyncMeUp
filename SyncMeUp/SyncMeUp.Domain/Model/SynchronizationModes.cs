@@ -1,4 +1,4 @@
-﻿namespace SyncMeUp.Domain.Domain
+﻿namespace SyncMeUp.Domain.Model
 {
     public class SynchronizationModes
     {

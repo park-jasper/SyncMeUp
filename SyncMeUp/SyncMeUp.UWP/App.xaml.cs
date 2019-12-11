@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using SyncMeUp.Domain.Services;
 using SyncMeUp.UWP.Services;
 using System.Diagnostics;
+using Newtonsoft.Json;
 using SyncMeUp.Domain.Contracts;
 
 namespace SyncMeUp.UWP
@@ -37,6 +38,7 @@ namespace SyncMeUp.UWP
 
             Di.RegisterType<IUniqueIdentifierService, UniqueIdentifierService>(true);
             Di.RegisterType<IFilePicker, FilePicker>(true);
+            Di.RegisterType<IFileService, FileService>(true);
         }
 
         /// <summary>

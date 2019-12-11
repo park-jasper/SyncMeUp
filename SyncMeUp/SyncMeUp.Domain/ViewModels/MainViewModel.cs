@@ -11,6 +11,7 @@ using SyncMeUp.Domain.Commands;
 using SyncMeUp.Domain.Contracts;
 using SyncMeUp.Domain.Cryptography;
 using SyncMeUp.Domain.Domain;
+using SyncMeUp.Domain.Model;
 using SyncMeUp.Domain.Networking;
 using SyncMeUp.Domain.Services;
 
@@ -28,18 +29,19 @@ namespace SyncMeUp.Domain.ViewModels
         public ICommand MakeOtp { get; set; }
         public ICommand StopServer { get; set; }
         public ICommand Test { get; set; }
+        public ICommand Scan { get; set; }
 
         public ContainerViewModel Container { get; set; } = new ContainerViewModel(new KnownClientsProvider(Di.GetInstance<ISecureStorageProvider>()), new SynchronizationContainer
         {
             Name = "Musik",
-            RelativePath = @"E:\Jasper\Music",
+            Path = @"E:\Jasper\Music",
             Guid = Guid.NewGuid(),
             SyncModes = new SynchronizationModes
             {
                 Download = true
             },
             OwnCommunicationRole = CommunicationRole.Server,
-            Files = new List<string>(),
+            Content = new SynchronizationFolder(),
             KnownPeers = new List<Guid>()
         });
 
@@ -58,6 +60,41 @@ namespace SyncMeUp.Domain.ViewModels
 
                 await Task.Delay(5000);
                 provider.CloseBulkStorage(bulk);
+            });
+            Scan = new CommandForwarding(async sender =>
+            {
+                var dir = await Di.GetInstance<IFilePicker>().PickDirectory();
+                var scanner = new ContainerScanner(Di.GetInstance<IFileService>(), SHA512.Create());
+                await scanner.ScanForChangesAsync(new SynchronizationContainer()
+                {
+                    Name = "Musik",
+                    Path = @"E:\Jasper\Temp\TitanQuest",
+                    Guid = Guid.NewGuid(),
+                    SyncModes = new SynchronizationModes
+                    {
+                        Download = true
+                    },
+                    OwnCommunicationRole = CommunicationRole.Server,
+                    Content = new SynchronizationFolder()
+                    {
+                        Files = new List<SynchronizationFile>()
+                        {
+                            new SynchronizationFile()
+                            {
+                                FileName = "readme.txt",
+                                ContentHash = new byte[512 / 8],
+                                SizeInBytes = 2082
+                            },
+                            new SynchronizationFile()
+                            {
+                                FileName = "nonexistent.txt",
+                                ContentHash = new byte[512 / 8],
+                                SizeInBytes = 12345
+                            }
+                        }
+                    },
+                    KnownPeers = new List<Guid>()
+                });
             });
 
             GuiEnabled = true;

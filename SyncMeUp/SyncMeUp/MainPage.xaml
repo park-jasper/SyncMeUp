@@ -14,6 +14,7 @@
         <!--<Image Source="{Binding Path=QrCodeImageData, Converter={StaticResource ImageDataSourceConverter}}" HeightRequest="700"/>-->
         <Label Text="{Binding Path=Info}"/>
         <views:ContainerView BindingContext="{Binding Path=Container}" />
+        <Button VerticalOptions="Center" Text="ScanTQ" Command="{Binding Path=Scan}" IsEnabled="True"></Button>
     </StackLayout>
 
 </ContentPage>

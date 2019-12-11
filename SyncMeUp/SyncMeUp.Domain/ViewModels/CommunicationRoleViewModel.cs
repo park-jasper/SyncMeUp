@@ -1,5 +1,5 @@
 ﻿using System;
-using SyncMeUp.Domain.Domain;
+using SyncMeUp.Domain.Model;
 
 namespace SyncMeUp.Domain.ViewModels
 {

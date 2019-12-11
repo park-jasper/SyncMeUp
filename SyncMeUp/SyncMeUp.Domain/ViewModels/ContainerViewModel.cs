@@ -6,6 +6,7 @@ using System.Windows.Input;
 using SyncMeUp.Domain.Commands;
 using SyncMeUp.Domain.Contracts;
 using SyncMeUp.Domain.Domain;
+using SyncMeUp.Domain.Model;
 using SyncMeUp.Domain.Services;
 
 namespace SyncMeUp.Domain.ViewModels
@@ -47,7 +48,7 @@ namespace SyncMeUp.Domain.ViewModels
 
             Guid = container.Guid.ToString();
             Name = container.Name;
-            RelativePath = container.RelativePath;
+            RelativePath = container.Path;
             KnownPeers = container.KnownPeers.Select(p => p.ToString()).ToList();
 
             Upload = _container.SyncModes.Upload;

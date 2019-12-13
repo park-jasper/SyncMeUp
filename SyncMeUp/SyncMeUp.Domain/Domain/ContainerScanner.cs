@@ -107,6 +107,8 @@ namespace SyncMeUp.Domain.Domain
                 }
                 else if (!fileIt.MoveNext())
                 {
+                    //modelIt.MoveNext() was executed and returned true, the enumerator is on the first element
+                    currentModelNotDone = true;
                     fileSystemDone = true;
                 }
                 else
@@ -142,8 +144,9 @@ namespace SyncMeUp.Domain.Domain
                             }
                             if (!fileIt.MoveNext())
                             {
-                                fileSystemDone = true;
+                                //modelIt.MoveNext() was executed and returned true, the enumerator is on the first element
                                 currentModelNotDone = true;
+                                fileSystemDone = true;
                                 break;
                             }
                         }

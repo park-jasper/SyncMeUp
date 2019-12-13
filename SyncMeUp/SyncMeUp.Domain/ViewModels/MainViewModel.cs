@@ -65,10 +65,10 @@ namespace SyncMeUp.Domain.ViewModels
             {
                 var dir = await Di.GetInstance<IFilePicker>().PickDirectory();
                 var scanner = new ContainerScanner(Di.GetInstance<IFileService>(), SHA512.Create());
-                await scanner.ScanForChangesAsync(new SynchronizationContainer()
+                var changes = await scanner.ScanForChangesAsync(new SynchronizationContainer()
                 {
                     Name = "Musik",
-                    Path = @"E:\Jasper\Temp\TitanQuest",
+                    Path = dir,
                     Guid = Guid.NewGuid(),
                     SyncModes = new SynchronizationModes
                     {
@@ -95,6 +95,7 @@ namespace SyncMeUp.Domain.ViewModels
                     },
                     KnownPeers = new List<Guid>()
                 });
+                int p = 5;
             });
 
             GuiEnabled = true;

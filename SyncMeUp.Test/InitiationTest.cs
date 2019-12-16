@@ -12,12 +12,11 @@ using SyncMeUp.Test.Mocking;
 
 namespace SyncMeUp.Test
 {
-    public class InitiationTest
+    public class InitiationTest : TestBase
     {
-        public IAssert Assert { get; set; }
-        public InitiationTest(IAssert assert)
+        public InitiationTest(IAssert assert) : base(assert)
         {
-            Assert = assert;
+
         }
         public async Task TestOtpInitiation()
         {

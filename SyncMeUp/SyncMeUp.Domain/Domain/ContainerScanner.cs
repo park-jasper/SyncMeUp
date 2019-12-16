@@ -34,7 +34,7 @@ namespace SyncMeUp.Domain.Domain
             var changes = await CalculateDifferences(modelState, fileSystemState, false, m => m.Name);
             foreach (var change in changes)
             {
-                change.Folder = folder;
+                change.ParentFolder = folder;
                 result.Changes.Add(change);
             }
 
@@ -44,12 +44,25 @@ namespace SyncMeUp.Domain.Domain
                 await TraverseFolderForChanges(subfolder, basePath, result, Path.Combine(currentPath, subfolder.Name));
             }
             var addedFolders = changes.Where(c => c.ChangeType == ChangeType.Created).Select(c => c.Name).ToList();
-            foreach (var newFolder in addedFolders)
+            foreach (var added in addedFolders)
             {
-                await TraverseFolderForChanges(new SynchronizationFolder()
+                var newFolder = new SynchronizationFolder()
                 {
-                    Name = newFolder
-                }, basePath, result, Path.Combine(currentPath, newFolder));
+                    Name = added,
+                    Parent = folder
+                };
+                Enhance(changes, newFolder);
+                await TraverseFolderForChanges(newFolder, basePath, result, Path.Combine(currentPath, added));
+            }
+        }
+
+        private void Enhance(IEnumerable<ChangeRecord> foldersCreated, SynchronizationFolder newModel)
+        {
+            var change =
+                foldersCreated.FirstOrDefault(f => f.ChangeType == ChangeType.Created && f.Name == newModel.Name);
+            if (change != null)
+            {
+                change.Folder = newModel;
             }
         }
 
@@ -69,12 +82,12 @@ namespace SyncMeUp.Domain.Domain
 
             foreach (var change in changes)
             {
-                change.Folder = folder;
+                change.ParentFolder = folder;
                 result.Changes.Add(change);
             }
         }
 
-        private async Task<IReadOnlyList<ChangeRecord>> CalculateDifferences<T>(
+        public async Task<IReadOnlyList<ChangeRecord>> CalculateDifferences<T>(
             List<T> modelState,
             List<string> fileSystemState,
             bool isFiles,
@@ -99,16 +112,16 @@ namespace SyncMeUp.Domain.Domain
             {
                 bool modelDone = false;
                 bool fileSystemDone = false;
-                bool currentModelNotDone = false;
+                bool fileSystemNotStarted = false;
 
                 if (!modelIt.MoveNext())
                 {
                     modelDone = true;
+                    //fileSystemIt.MoveNext() has not been called, yet we skip the comparison because there are no current models
+                    fileSystemNotStarted = true;
                 }
                 else if (!fileIt.MoveNext())
                 {
-                    //modelIt.MoveNext() was executed and returned true, the enumerator is on the first element
-                    currentModelNotDone = true;
                     fileSystemDone = true;
                 }
                 else
@@ -137,16 +150,21 @@ namespace SyncMeUp.Domain.Domain
                                     });
                                 }
                             }
-                            if (!modelIt.MoveNext())
+                            /**
+                             * Advance both iterators by one because both current elements have been dealt with
+                             * if both run out the algorithm is done
+                             * if only one ran out, set the corresponding flags and go into just scanning the remaining models/files
+                             */
+                            var hasNextModel = modelIt.MoveNext();
+                            var hasNextFile = fileIt.MoveNext();
+                            if (!hasNextModel || !hasNextFile)
                             {
-                                modelDone = true;
-                                break;
-                            }
-                            if (!fileIt.MoveNext())
-                            {
-                                //modelIt.MoveNext() was executed and returned true, the enumerator is on the first element
-                                currentModelNotDone = true;
-                                fileSystemDone = true;
+                                if (!hasNextModel && !hasNextFile)
+                                {
+                                    return result;
+                                }
+                                modelDone = !hasNextModel;
+                                fileSystemDone = !hasNextFile;
                                 break;
                             }
                         }
@@ -187,7 +205,12 @@ namespace SyncMeUp.Domain.Domain
 
                 if (modelDone)
                 {
-                    while (fileIt.MoveNext())
+                    if (fileSystemNotStarted && !fileIt.MoveNext())
+                    {
+                        //both model and file system are empty
+                        return result;
+                    }
+                    do
                     {
                         result.Add(new ChangeRecord()
                         {
@@ -196,10 +219,11 @@ namespace SyncMeUp.Domain.Domain
                             Name = fileIt.Current
                         });
                     }
+                    while (fileIt.MoveNext());
                 }
                 else if (fileSystemDone)
                 {
-                    if (currentModelNotDone)
+                    do
                     {
                         result.Add(new ChangeRecord()
                         {
@@ -208,15 +232,7 @@ namespace SyncMeUp.Domain.Domain
                             Name = getName(modelIt.Current)
                         });
                     }
-                    while (modelIt.MoveNext())
-                    {
-                        result.Add(new ChangeRecord()
-                        {
-                            ChangeType = ChangeType.Deleted,
-                            FileType = isFiles ? FileType.File : FileType.Folder,
-                            Name = getName(modelIt.Current)
-                        });
-                    }
+                    while (modelIt.MoveNext());
                 }
             }
             return result;
@@ -254,6 +270,28 @@ namespace SyncMeUp.Domain.Domain
             public ChangeType ChangeType { get; set; }
             public string Name { get; set; }
             public SynchronizationFolder Folder { get; set; }
+            public SynchronizationFolder ParentFolder { get; set; }
+
+            public override string ToString()
+            {
+                var changeType = ChangeType == ChangeType.Created
+                    ? "Created"
+                    : (ChangeType == ChangeType.Deleted ? "Deleted" : "Edited");
+                var fileType = FileType == FileType.File ? "File" : "Folder";
+                var path = GetPath();
+                return $"{changeType} - {fileType}: {path}";
+            }
+            private string GetPath()
+            {
+                if (ParentFolder != null && !string.IsNullOrEmpty(ParentFolder.Name))
+                {
+                    return Path.Combine(ParentFolder.Name, Name);
+                }
+                else
+                {
+                    return Name;
+                }
+            }
         }
 
         public enum ChangeType

@@ -12,18 +12,7 @@ namespace SyncMeUp.Test.Mocking
         private NetworkStreamMock _partner;
         private readonly Queue<byte[]> _currentBufferQueue = new Queue<byte[]>();
         private readonly Queue<byte[]> _currentRequestBufferQueue = new Queue<byte[]>();
-        private TaskCompletionSource<int> _currentTaskSourceField;
-        private TaskCompletionSource<int> _currentTaskSource
-        {
-            get
-            {
-                return _currentTaskSourceField;
-            }
-            set
-            {
-                _currentTaskSourceField = value;
-            }
-        }
+        private TaskCompletionSource<int> _currentTaskSource { get; set; }
 
         private readonly object _completionLock = new object();
         

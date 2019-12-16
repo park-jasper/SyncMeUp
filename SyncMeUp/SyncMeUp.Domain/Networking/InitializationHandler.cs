@@ -198,10 +198,9 @@ namespace SyncMeUp.Domain.Networking
             //Verify guid against guid list of servers
             //Check that server has the public key
             await SendGuid(stream, clientGuid, token);
-            RsaPrivateKey privateKey = null;
             var sessionKey = await GetSessionKey(stream, clientPrivateKey, token);
 
-            throw new NotImplementedException();
+            return new SessionControl(stream, sessionKey);
         }
 
         private static async Task<NetworkResult> SendPresharedKey(INetworkStream stream, CancellationToken token)

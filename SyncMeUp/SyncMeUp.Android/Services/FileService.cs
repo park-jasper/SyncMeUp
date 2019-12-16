@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.Provider;
+using Android;
 using Java.IO;
 using Java.Nio.FileNio;
 using SyncMeUp.Domain.Contracts;
+using SyncMeUp.Domain.Services;
 
 namespace SyncMeUp.Droid.Services
 {
     public class FileService : IFileService
     {
+        private Task<bool> CheckPermissions()
+        {
+            return Di.GetInstance<IPermissionRequestProvider>()
+                .CheckAndRequestPermissionAsync(Manifest.Permission.ReadExternalStorage);
+        }
         public bool ExistsFile(string path)
         {
             var file = new File(path);
@@ -77,9 +83,15 @@ namespace SyncMeUp.Droid.Services
 
         public async Task<IEnumerable<string>> ListFilesAsync(string path)
         {
+            if (!await CheckPermissions())
+            {
+                return null;
+            }
             var file = new File(path);
             var filter = new FileFilter(f => f.IsFile);
             var files = await file.ListFilesAsync(filter);
+            var withoutFilter = await file.ListFilesAsync();
+            var syncro = file.ListFiles();
             return files.Select(f => f.Path);
 
             //var file = new File(path);

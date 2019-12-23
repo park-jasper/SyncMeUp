@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="..\..\packages\Xamarin.Forms.4.4.0.991265\build\Xamarin.Forms.props" Condition="Exists('..\..\packages\Xamarin.Forms.4.4.0.991265\build\Xamarin.Forms.props')" />
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{D6A9AD40-FEF5-4824-9BB8-F7EDD9B7ED74}</ProjectGuid>
+        <OutputType>WinExe</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>SyncMeUp.GTK</RootNamespace>
+        <AssemblyName>SyncMeUp.GTK</AssemblyName>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="atk-sharp, Version=3.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+          <HintPath>..\..\packages\gtk-sharp.Linux.3.14.3.14.7\lib\net40\atk-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="cairo-sharp, Version=1.12.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
+          <HintPath>..\..\packages\gtk-sharp.Linux.3.14.3.14.7\lib\net40\cairo-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="gdk-sharp, Version=3.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+          <HintPath>..\..\packages\gtk-sharp.Linux.3.14.3.14.7\lib\net40\gdk-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="gio-sharp, Version=3.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+          <HintPath>..\..\packages\gtk-sharp.Linux.3.14.3.14.7\lib\net40\gio-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="glib-sharp, Version=3.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+          <HintPath>..\..\packages\gtk-sharp.Linux.3.14.3.14.7\lib\net40\glib-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="gtk-dotnet, Version=3.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+          <HintPath>..\..\packages\gtk-sharp.Linux.3.14.3.14.7\lib\net40\gtk-dotnet.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="gtk-sharp, Version=3.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+          <HintPath>..\..\packages\gtk-sharp.Linux.3.14.3.14.7\lib\net40\gtk-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="MoreLinq.Portable, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d">
+          <HintPath>..\..\packages\MoreLinq.Portable.1.4.0\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\MoreLinq.Portable.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="mscorlib" />
+        <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+          <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="OpenTK, Version=3.0.1.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
+          <HintPath>..\..\packages\OpenTK.3.0.1\lib\net20\OpenTK.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="pango-sharp, Version=3.14.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+          <HintPath>..\..\packages\gtk-sharp.Linux.3.14.3.14.7\lib\net40\pango-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>..\..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Collections.Immutable, Version=1.2.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>..\..\packages\System.Collections.Immutable.1.6.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+          <HintPath>..\..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>..\..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+          <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="System.Xml" />
+        <Reference Include="Unity.Abstractions, Version=5.11.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0">
+          <HintPath>..\..\packages\Unity.5.11.2\lib\net47\Unity.Abstractions.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Unity.Container, Version=5.11.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0">
+          <HintPath>..\..\packages\Unity.5.11.2\lib\net47\Unity.Container.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="webkit-sharp, Version=1.1.15.0, Culture=neutral, PublicKeyToken=eaa1d335d2e19745">
+          <HintPath>..\..\packages\Xamarin.Forms.Platform.GTK.4.4.0.991265\lib\net45\webkit-sharp.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\packages\Xamarin.Forms.4.4.0.991265\lib\netstandard2.0\Xamarin.Forms.Core.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.Forms.Platform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\packages\Xamarin.Forms.4.4.0.991265\lib\netstandard2.0\Xamarin.Forms.Platform.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.Forms.Platform.GTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\packages\Xamarin.Forms.Platform.GTK.4.4.0.991265\lib\net45\Xamarin.Forms.Platform.GTK.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+        <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\packages\Xamarin.Forms.4.4.0.991265\lib\netstandard2.0\Xamarin.Forms.Xaml.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Program.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Services\FilePicker.cs" />
+        <Compile Include="Services\FileService.cs" />
+        <Compile Include="Services\QrCodeScanService.cs" />
+        <Compile Include="Services\UniqueIdentifierService.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="OpenTK.dll.config" />
+      <None Include="packages.config" />
+      <None Include="webkit-sharp.dll.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\SyncMeUp.Domain\SyncMeUp.Domain.csproj">
+        <Project>{3f185b7d-2994-44c8-9d63-1ba034667236}</Project>
+        <Name>SyncMeUp.Domain</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\SyncMeUp\SyncMeUp.csproj">
+        <Project>{8e74e690-37c3-4e46-880f-bc873ac07e0c}</Project>
+        <Name>SyncMeUp</Name>
+      </ProjectReference>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+      <PropertyGroup>
+        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+      </PropertyGroup>
+      <Error Condition="!Exists('..\..\packages\Xamarin.Forms.4.4.0.991265\build\Xamarin.Forms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Xamarin.Forms.4.4.0.991265\build\Xamarin.Forms.props'))" />
+      <Error Condition="!Exists('..\..\packages\Xamarin.Forms.4.4.0.991265\build\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Xamarin.Forms.4.4.0.991265\build\Xamarin.Forms.targets'))" />
+      <Error Condition="!Exists('..\..\packages\gtk-sharp.Linux.3.14.3.14.7\build\net40\gtk-sharp.Linux.3.14.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\gtk-sharp.Linux.3.14.3.14.7\build\net40\gtk-sharp.Linux.3.14.targets'))" />
+    </Target>
+    <Import Project="..\..\packages\Xamarin.Forms.4.4.0.991265\build\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.4.4.0.991265\build\Xamarin.Forms.targets')" />
+    <Import Project="..\..\packages\gtk-sharp.Linux.3.14.3.14.7\build\net40\gtk-sharp.Linux.3.14.targets" Condition="Exists('..\..\packages\gtk-sharp.Linux.3.14.3.14.7\build\net40\gtk-sharp.Linux.3.14.targets')" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>

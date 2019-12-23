@@ -17,7 +17,7 @@ namespace SyncMeUp.Domain.Networking
 
         public async Task<bool> OfferContainer(SynchronizationContainer container)
         {
-
+            return false;
         }
     }
 }

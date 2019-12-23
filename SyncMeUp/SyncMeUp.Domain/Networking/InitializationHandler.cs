@@ -199,8 +199,14 @@ namespace SyncMeUp.Domain.Networking
             //Check that server has the public key
             await SendGuid(stream, clientGuid, token);
             var sessionKey = await GetSessionKey(stream, clientPrivateKey, token);
-
-            return new SessionControl(stream, sessionKey);
+            if (sessionKey.Successful)
+            {
+                return new SessionControl(stream, sessionKey.Result);
+            }
+            else
+            {
+                return null; //TODO correct error result
+            }
         }
 
         private static async Task<NetworkResult> SendPresharedKey(INetworkStream stream, CancellationToken token)

@@ -1,4 +1,7 @@
 ﻿using System;
+using SyncMeUp.Domain.Contracts;
+using SyncMeUp.Domain.Services;
+using SyncMeUp.GTK.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.GTK;
 
@@ -11,6 +14,10 @@ namespace SyncMeUp.GTK
         {
             Gtk.Application.Init();
             Forms.Init();
+
+            Di.RegisterType<IUniqueIdentifierService, UniqueIdentifierService>(true);
+            Di.RegisterType<IFilePicker, FilePicker>(true);
+            Di.RegisterType<IFileService, FileService>(true);
 
             var app = new App();
             var window = new FormsWindow();

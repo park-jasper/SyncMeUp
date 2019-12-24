@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using SyncMeUp.Domain.Contracts;
 
@@ -8,32 +11,35 @@ namespace SyncMeUp.GTK.Services
     {
         public bool ExistsFile(string path)
         {
-            throw new System.NotImplementedException();
+            return File.Exists(path);
         }
 
         public bool ExistsDirectory(string path)
         {
-            throw new System.NotImplementedException();
+            return Directory.Exists(path);
         }
 
         public Task<ulong> GetFileSizeInBytesAsync(string path)
         {
-            throw new System.NotImplementedException();
+            var info = new FileInfo(path);
+            return Task.FromResult((ulong) info.Length);
         }
 
         public Task<byte[]> GetFileContentsAsync(string path)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(File.ReadAllBytes(path));
         }
 
         public Task<IEnumerable<string>> ListDirectoriesAsync(string path)
         {
-            throw new System.NotImplementedException();
+            var dirInfo = new DirectoryInfo(path);
+            return Task.FromResult(dirInfo.GetDirectories().Select(f => f.Name));
         }
 
         public Task<IEnumerable<string>> ListFilesAsync(string path)
         {
-            throw new System.NotImplementedException();
+            var dirInfo = new DirectoryInfo(path);
+            return Task.FromResult(dirInfo.GetFiles().Select(f => f.Name));
         }
     }
 }

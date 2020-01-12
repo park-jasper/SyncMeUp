@@ -1,20 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SyncMeUp"
              xmlns:views="clr-namespace:SyncMeUp.Views"
+             xmlns:pages="clr-namespace:SyncMeUp.Pages;assembly=SyncMeUp"
              x:Class="SyncMeUp.MainPage">
-
-    <StackLayout>
-        <Button VerticalOptions="Center" Text="MakeOtp" Command="{Binding Path=MakeOtp}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
-        <Button VerticalOptions="Center" Text="StopServer" Command="{Binding Path=StopServer}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
-        <Button VerticalOptions="Center" Text="ScanQrCode" Command="{Binding Path=ScanQrCode}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
-        <Button VerticalOptions="Center" Text="Test" Command="{Binding Path=Test}" IsEnabled="{Binding Path=GuiEnabled}"></Button>
-
-        <!--<Image Source="{Binding Path=QrCodeImageData, Converter={StaticResource ImageDataSourceConverter}}" HeightRequest="700"/>-->
-        <Label Text="{Binding Path=Info}"/>
-        <views:ContainerView BindingContext="{Binding Path=Container}" />
-        <Button VerticalOptions="Center" Text="ScanTQ" Command="{Binding Path=Scan}" IsEnabled="True"></Button>
-    </StackLayout>
-
-</ContentPage>
+</MasterDetailPage>

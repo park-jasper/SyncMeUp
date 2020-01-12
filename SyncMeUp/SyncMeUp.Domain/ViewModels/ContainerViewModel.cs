@@ -46,10 +46,10 @@ namespace SyncMeUp.Domain.ViewModels
         {
             _container = container;
 
-            Guid = container.Guid.ToString();
-            Name = container.Name;
-            RelativePath = container.Path;
-            KnownPeers = container.KnownPeers.Select(p => p.ToString()).ToList();
+            Guid = _container.Guid.ToString();
+            Name = _container.Name;
+            RelativePath = _container.Path;
+            KnownPeers = _container.KnownPeers.Select(p => p.ToString()).ToList();
 
             Upload = _container.SyncModes.Upload;
             Download = _container.SyncModes.Download;

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:SyncMeUp.Views;assembly=SyncMeUp"
+             mc:Ignorable="d"
+             x:Class="SyncMeUp.Pages.ContainerPage">
+    <ContentPage.Content>
+        <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal" VerticalOptions="Start" HorizontalOptions="Start">
+                <ListView ItemsSource="{Binding Path=Containers}" SelectedItem="{Binding Path=CurrentContainer}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding Path=Name}" />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <StackLayout IsVisible="{Binding Path=IsContainerSelected}">
+                    <!--<StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding Path=IsContainerSelected}" Value="True">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding Path=IsContainerSelected}" Value="False">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>-->
+                    <views:ContainerView BindingContext="CurrentContainer" />
+                </StackLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="Start" HorizontalOptions="End">
+                <Button Text="Create New" Command="{Binding Path=CreateNewContainer}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

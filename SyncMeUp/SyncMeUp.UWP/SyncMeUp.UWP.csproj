@@ -11,8 +11,8 @@
     <AssemblyName>SyncMeUp.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
@@ -96,10 +96,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\FilePicker.cs" />
-    <Compile Include="Services\FileService.cs" />
-    <Compile Include="Services\QrCodeScanService.cs" />
-    <Compile Include="Services\UniqueIdentifierService.cs" />
+    <Compile Include="BackgroundDaemon.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -148,12 +145,12 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Unity">
-      <Version>5.11.1</Version>
+      <Version>5.11.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
       <Version>1.3.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.3.0.991211" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.9" />
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
@@ -163,6 +160,14 @@
     <ProjectReference Include="..\SyncMeUp.Domain\SyncMeUp.Domain.csproj">
       <Project>{3F185B7D-2994-44C8-9D63-1BA034667236}</Project>
       <Name>SyncMeUp.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyncMeUp.UWP.BackgroundTask\SyncMeUp.UWP.BackgroundTask.csproj">
+      <Project>{6dd90f94-403a-461b-b841-a84513f8b923}</Project>
+      <Name>SyncMeUp.UWP.BackgroundTask</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyncMeUp.UWP.Services\SyncMeUp.UWP.Services.csproj">
+      <Project>{eb37a723-5bbe-475a-9785-c5b482111752}</Project>
+      <Name>SyncMeUp.UWP.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\SyncMeUp\SyncMeUp.csproj">
       <Project>{0F6956F6-87FF-4B0A-A4CF-99F6FC24D74A}</Project>

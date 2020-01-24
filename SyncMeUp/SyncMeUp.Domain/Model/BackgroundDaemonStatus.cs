@@ -1,6 +1,6 @@
 ﻿namespace SyncMeUp.Domain.Model
 {
-    public enum BackgroundDemonStatus
+    public enum BackgroundDaemonStatus
     {
         Running,
         Stopped

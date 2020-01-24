@@ -31,7 +31,7 @@ namespace SyncMeUp.Droid.Services
                 .SetRequiresBatteryNotLow(true)
                 .Build();
         }
-        public async Task Start()
+        public async Task Start(CommunicationRole role)
         {
             _request = new PeriodicWorkRequest.Builder(typeof(BackgroundWorkerTask), TimeSpan.FromMinutes(30))
                 .SetConstraints(_constraints)
@@ -39,23 +39,23 @@ namespace SyncMeUp.Droid.Services
             _operation = WorkManager.Instance.Enqueue(_request);
         }
 
-        public async Task Stop(bool force)
+        public async Task Stop(CommunicationRole role, bool force)
         {
             _request.UnregisterFromRuntime();
         }
 
-        public Task<BackgroundDemonStatus> GetStatus()
+        public Task<BackgroundDaemonStatus> GetStatus(CommunicationRole role)
         {
             var state = _operation.State;
             throw new NotImplementedException();
         }
 
-        public Task Queue(BackgroundJob job)
+        public Task TriggerAction(CommunicationRole role)
         {
             throw new NotImplementedException();
         }
 
-        public Task ClearJobs(bool clearCurrentJobIfRunning)
+        public Task ClearJobs(CommunicationRole role, bool clearCurrentJobIfRunning)
         {
             throw new NotImplementedException();
         }

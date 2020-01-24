@@ -5,10 +5,10 @@ namespace SyncMeUp.Domain.Contracts
 {
     public interface IBackgroundDaemon
     {
-        Task Start();
-        Task Stop(bool force);
-        Task<BackgroundDemonStatus> GetStatus();
-        Task Queue(BackgroundJob job);
-        Task ClearJobs(bool clearCurrentJobIfRunning);
+        Task Start(CommunicationRole role);
+        Task Stop(CommunicationRole role, bool force);
+        Task<BackgroundDaemonStatus> GetStatus(CommunicationRole role);
+        Task TriggerAction(CommunicationRole role);
+        Task ClearJobs(CommunicationRole role, bool clearCurrentJobIfRunning);
     }
 }

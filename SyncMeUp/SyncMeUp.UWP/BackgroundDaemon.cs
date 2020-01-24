@@ -11,31 +11,67 @@ namespace SyncMeUp.UWP
 {
     public class BackgroundDaemon : IBackgroundDaemon
     {
-        public async Task Start()
+        private readonly ApplicationTrigger _serverApplicationTrigger = new ApplicationTrigger();
+
+        public async Task Start(CommunicationRole role)
         {
-            var (guid, runningTask) = BackgroundTaskRegistration.AllTasks.FirstOrDefault(t => t.Value.Name == Constants.BackgroundDaemonName);
+            var requestStatus = await BackgroundExecutionManager.RequestAccessAsync();
+            var allowedStatusList = new[]
+            {
+                BackgroundAccessStatus.AllowedSubjectToSystemPolicy,
+                BackgroundAccessStatus.AlwaysAllowed
+            };
+            if (!allowedStatusList.Any(s => requestStatus == s))
+            {
+                return;
+            }
+
+            string taskEntryPoint = $"{nameof(SyncMeUp)}.{nameof(SyncMeUp.UWP)}.{nameof(SyncMeUp.UWP.BackgroundTask)}.";
+            string taskName;
+            IBackgroundTrigger trigger;
+            switch (role)
+            {
+                case CommunicationRole.Server:
+                    taskEntryPoint += nameof(BackgroundTask.ServerBackgroundTask);
+                    trigger = _serverApplicationTrigger;
+                    taskName = Constants.ServerBackgroundDaemonName;
+                    break;
+
+                case CommunicationRole.Client:
+                default:
+                    taskEntryPoint += nameof(BackgroundTask.ClientBackgroundTask);
+                    trigger = new TimeTrigger(30, false);
+                    taskName = Constants.ClientBackgroundDaemonName;
+                    break;
+            }
+
+            var (guid, runningTask) = BackgroundTaskRegistration.AllTasks.FirstOrDefault(t => t.Value.Name == taskName);
             if (runningTask != null)
             {
-                runningTask.Unregister(true);
-                //runningTask.Progress += OnProgress;
+                runningTask.Progress += OnProgress;
+                if (role == CommunicationRole.Server)
+                {
+                    await _serverApplicationTrigger.RequestAsync();
+                }
                 return;
             }
             var builder = new BackgroundTaskBuilder
             {
-                Name = Constants.BackgroundDaemonName,
+                Name = taskName,
                 CancelOnConditionLoss = false,
                 IsNetworkRequested = true,
-                TaskEntryPoint = $"{nameof(SyncMeUp)}.{nameof(SyncMeUp.UWP)}.{nameof(SyncMeUp.UWP.BackgroundTask)}.{nameof(BackgroundTask.BackgroundTask)}"
+                TaskEntryPoint = taskEntryPoint,
             };
-            var appTrigger = new ApplicationTrigger();
-            builder.SetTrigger(appTrigger); 
+
+            builder.SetTrigger(trigger);
             var task = builder.Register();
             task.Completed += OnCompleted;
             task.Progress += OnProgress;
 
-            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            localSettings.Values[Constants.LocalSettingsBackgroundTaskModeKey] = Constants.BackgroundTaskModeServer;
-            await appTrigger.RequestAsync();
+            if (role == CommunicationRole.Server)
+            {
+                await _serverApplicationTrigger.RequestAsync();
+            }
         }
 
         private void OnProgress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
@@ -48,24 +84,24 @@ namespace SyncMeUp.UWP
             Trace.WriteLine($"Task {args.InstanceId} completed");
         }
 
-        public Task Stop(bool force)
+        public Task Stop(CommunicationRole role, bool force)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public Task<BackgroundDemonStatus> GetStatus()
+        public Task<BackgroundDaemonStatus> GetStatus(CommunicationRole role)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public Task Queue(BackgroundJob job)
+        public Task TriggerAction(CommunicationRole role)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public Task ClearJobs(bool clearCurrentJobIfRunning)
+        public Task ClearJobs(CommunicationRole role, bool clearCurrentJobIfRunning)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

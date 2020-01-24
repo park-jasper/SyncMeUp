@@ -9,7 +9,7 @@ using SyncMeUp.UWP.Services;
 
 namespace SyncMeUp.UWP.BackgroundTask
 {
-    public sealed class BackgroundTask : IBackgroundTask
+    public sealed class ClientBackgroundTask : IBackgroundTask
     {
         private BackgroundTaskDeferral _deferral;
         public async void Run(IBackgroundTaskInstance taskInstance)
@@ -29,8 +29,10 @@ namespace SyncMeUp.UWP.BackgroundTask
             for (uint i = 0; i <= 100; i += 1)
             {
                 taskInstance.Progress = i;
+                System.Diagnostics.Debug.WriteLine($"Some progress {i}%");
                 await Task.Delay(TimeSpan.FromMilliseconds(500));
             }
+            taskInstance.Progress = 5;
             _deferral.Complete();
             return;
         }

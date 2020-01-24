@@ -34,7 +34,7 @@ namespace SyncMeUp.UWP
         public App()
         {
             var daemon = new BackgroundDaemon();
-            var asyncResult = daemon.Start();
+            var asyncResult = daemon.Start(Domain.Model.CommunicationRole.Server);
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
